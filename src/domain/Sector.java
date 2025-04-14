@@ -51,7 +51,7 @@ public class Sector {
         return empleado;
     }
     public TipoAlimentacion getTipoAlimentacion() {return tipoAlimentacion;}
-
+    
     @Override
     public String toString(){
         return String.format("Sector N°: %s [%s]", numero, tipoAlimentacion);
