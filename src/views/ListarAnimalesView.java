@@ -20,22 +20,27 @@ public class ListarAnimalesView extends javax.swing.JFrame {
         initComponents();
         listarAnimales();
     }
-    private void listarAnimales(){
+    
+    
+   public void listarAnimales(){
         ArrayList<AnimalViewModel> animales = Controlador.getAnimales();
         animalesGrid.setModel(new DefaultTableModel(new Object[][] {}, 
-            new String[] { "Especie", "Edad", "Peso", "Sector", "Comida Fija", "Por. Peso" }));
+            new String[] { "Especie", "Sector", "Pais", "Tipo de alimentación"}));
         
         for(AnimalViewModel animal : animales){
             ((DefaultTableModel)animalesGrid.getModel()).addRow(new Object[] {
                 animal.getEspecie(),
-                animal.getEdad(),
-                animal.getPeso(),
                 animal.getSector(),
+                animal.getPais(),
+                animal.getTipoalim(),
                 animal.getValorFijo() > 0 ? String.format("%.2f%n Kgs.", animal.getValorFijo()) : "-",
                 animal.getPorcentaje() > 0 ? String.format("%.2f %%", animal.getPorcentaje()*100) : "-"
             });
         }
     }
+
+   
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -54,6 +59,8 @@ public class ListarAnimalesView extends javax.swing.JFrame {
         totalCarnivoros = new javax.swing.JLabel();
         totalLabel = new javax.swing.JLabel();
         totalAlimentos = new javax.swing.JLabel();
+        volveer = new javax.swing.JButton();
+        actualizartabla = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Zoológico - Listar Animales");
@@ -130,6 +137,20 @@ public class ListarAnimalesView extends javax.swing.JFrame {
                 .addComponent(totalAlimentos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        volveer.setText("Volver");
+        volveer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                volveerActionPerformed(evt);
+            }
+        });
+
+        actualizartabla.setText("Actualizar");
+        actualizartabla.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                actualizartablaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -143,13 +164,23 @@ public class ListarAnimalesView extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(actualizartabla)
+                .addGap(82, 82, 82)
+                .addComponent(volveer)
+                .addGap(23, 23, 23))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(volveer)
+                    .addComponent(actualizartabla))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -167,6 +198,15 @@ public class ListarAnimalesView extends javax.swing.JFrame {
          totalCarnivoros.setText(String.format("Total Carnívoros: %.2f%n Kgs.", comida.getCarnivoros()));
          totalAlimentos.setText(String.format("%.2f%n Kgs.", comida.getTotal()));
     }//GEN-LAST:event_calcularComidaActionPerformed
+
+    private void volveerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volveerActionPerformed
+    Controlador.volveer(this);        // TODO add your handling code here:
+    }//GEN-LAST:event_volveerActionPerformed
+
+    private void actualizartablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizartablaActionPerformed
+        // TODO add your handling code here:
+        listarAnimales();
+    }//GEN-LAST:event_actualizartablaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -203,7 +243,13 @@ public class ListarAnimalesView extends javax.swing.JFrame {
         });
     }
     
+   private DefaultTableModel modelo = new DefaultTableModel(); 
+    
+    
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton actualizartabla;
     private javax.swing.JTable animalesGrid;
     private javax.swing.JButton calcularComida;
     private javax.swing.JScrollPane jScrollPane1;
@@ -212,6 +258,15 @@ public class ListarAnimalesView extends javax.swing.JFrame {
     private javax.swing.JLabel totalCarnivoros;
     private javax.swing.JLabel totalHerbivoros;
     private javax.swing.JLabel totalLabel;
+    private javax.swing.JButton volveer;
     // End of variables declaration//GEN-END:variables
+
+    public DefaultTableModel getModelo() {
+        return modelo;
+    }
+
+    public void setModelo(DefaultTableModel modelo) {
+        this.modelo = modelo;
+    }
 
 }
